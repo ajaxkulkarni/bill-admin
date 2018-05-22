@@ -1,0 +1,112 @@
+<div>
+
+    <button class="btn" ng-click="edit(null)">Add new</button>
+
+    <br><br>
+
+    <table class="table">
+
+        <th>Sr No</th>
+        <th>Display</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Week days</th>
+        <th>Month days</th>
+        <th>Weekly price</th>
+        <th>Price</th>
+        <th></th>
+
+        <tr ng-repeat="item in items">
+            <td>{{$index + 1}}</td>
+            <td><img src="http://localhost:8080/billapp-service/admin/getParentItemImage/{{item.id}}" height="100" width="100"></td>
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td>{{item.frequency}}</td>
+            <td>{{item.weekDays}}</td>
+            <td>{{item.monthDays}}</td>
+            <td>{{item.weeklyPricing}}</td>
+            <td>{{item.price}}</td>
+            <td><button class="btn" ng-click="edit(item)">Edit</button></td>
+            <td><button class="btn" ng-click="deleteItem(item)">Delete</button></td>
+            
+        </tr>
+
+
+    </table>
+
+
+</div>
+
+
+
+<!--Modals-->
+
+
+<div id="itemModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Update Item</h4>
+            </div>
+            <div class="modal-body">
+
+                <form>
+                    <div class="form-group">
+                        <label for="email">Name:</label>
+                        <input type="text" class="form-control" id="itemName" ng-model="item.name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Description:</label>
+                        <textarea class="form-control" id="itemDescription" ng-model="item.description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Week Days:</label>
+                        <input type="text" class="form-control" id="itemWeekDays" ng-model="item.weekDays">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Week pricing:</label>
+                        <input type="text" class="form-control" id="itemPricing" ng-model="item.weeklyPricing">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Month days:</label>
+                        <input type="text" class="form-control" id="itemMonthDays" ng-model="item.monthDays">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Type:</label>
+                        <select id="itemType" ng-model="item.frequency">
+                            <option value="DAILY">Daily</option>
+                            <option value="WEEKLY">Weekly (Magazine)</option>
+                            <option value="MONTHLY">Monthly (Magazine)</option>
+                            
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Fixed Price:</label>
+                        <input type="text" class="form-control" id="itemPrice" ng-model="item.price">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Image: {{imageFile.name}}</label>
+                        <div class="button blue_txt" ngf-select ng-model="imageFile" name="file" ngf-max-size="20MB" style="border:1px">
+                            <strong style="cursor: pointer">Select File</strong> 
+                        </div>
+
+                    </div>
+
+
+                    
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal" ng-click="saveItem()">Save</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
