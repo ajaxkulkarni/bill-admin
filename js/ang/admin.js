@@ -2,7 +2,7 @@ angular.module("app").controller('dashboard', function ($scope, userService, Upl
 
     $scope.item = {};
     console.log("Admin loaded ..");
-
+    $scope.root = root;
 
 
     $scope.getAllItems = function () {
@@ -30,7 +30,7 @@ angular.module("app").controller('dashboard', function ($scope, userService, Upl
         
         if($scope.item.itemSector == null) {
             $scope.item.itemSector = {
-                id: 2
+                id: 4
             }
         }
         

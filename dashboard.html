@@ -19,7 +19,7 @@
 
         <tr ng-repeat="item in items">
             <td>{{$index + 1}}</td>
-            <td><img src="http://localhost:8080/billapp-service/admin/getParentItemImage/{{item.id}}" height="100" width="100"></td>
+            <td><img src="{{root}}getParentItemImage/{{item.id}}" height="100" width="100"></td>
             <td>{{item.name}}</td>
             <td>{{item.description}}</td>
             <td>{{item.frequency}}</td>

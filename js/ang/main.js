@@ -5,7 +5,7 @@ app.config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
   }]);
 
 //var host = "http://localhost:8080/billapp-service";
-var host = "http://45.33.35.164:8080/billapp";
+var host = "http://173.255.197.204:8080/billapp";
 var root = host + "/admin/";
 //var projectRoot = host + "/projectService"
 //var rootAdmin = host + "/adminService";
