@@ -8,6 +8,7 @@
 
         <th>Sr No</th>
         <th>Display</th>
+        <th>Item ID</th>
         <th>Name</th>
         <th>Description</th>
         <th>Type</th>
@@ -20,6 +21,7 @@
         <tr ng-repeat="item in items">
             <td>{{$index + 1}}</td>
             <td><img src="{{root}}getParentItemImage/{{item.id}}" height="100" width="100"></td>
+            <td>{{item.id}}</td>
             <td>{{item.name}}</td>
             <td>{{item.description}}</td>
             <td>{{item.frequency}}</td>
