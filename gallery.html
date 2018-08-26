@@ -1,0 +1,205 @@
+<body class="no-skin">
+
+
+
+
+    <div class="page-content">
+
+        <!-- /.ace-settings-container -->
+
+        <div class="page-header">
+            <h1>
+                Parent items
+                <!--<small>
+									<i class="ace-icon fa fa-angle-double-right"></i>
+									responsive photo gallery using colorbox
+								</small>-->
+            </h1>
+        </div>
+        <!-- /.page-header -->
+
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- PAGE CONTENT BEGINS -->
+                <div>
+                    <ul class="ace-thumbnails clearfix">
+                        <li ng-repeat="item in items">
+                            <a title="{{item.name}}" ng-click="edit(item)" style="cursor:pointer">
+                                <img width="150" height="150" alt="150x150" src="{{root}}getParentItemImage/{{item.id}}" />
+                            </a>
+
+                            <div class="tags">
+                                <span class="label-holder">
+													<span class="label label-info">{{item.id}}</span>
+                                </span>
+
+                                <span class="label-holder">
+													<span class="label label-danger">{{item.name}}</span>
+                                </span>
+
+                                <span class="label-holder">
+													<span class="label label-success">{{item.frequency}}</span>
+                                </span>
+
+                                <span class="label-holder">
+													<span class="label label-warning arrowed-in">{{item.weeklyPricing != null ? item.weeklyPricing : item.price}}</span>
+                                </span>
+                            </div>
+
+                            <div class="tools">
+                                <!--<a href="#">
+                                    <i class="ace-icon fa fa-link"></i>
+                                </a>
+
+                                <a href="#">
+                                    <i class="ace-icon fa fa-paperclip"></i>
+                                </a>-->
+
+                                <a style="cursor:pointer" ng-click="edit(item)">
+                                    <i class="ace-icon fa fa-pencil"></i>
+                                </a>
+
+                                <a style="cursor:pointer" ng-click="deleteConfirm(item)">
+                                    <i class="ace-icon fa fa-times red"></i>
+                                </a>
+                            </div>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <!-- PAGE CONTENT ENDS -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+
+    <div id="itemModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Update Item</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Name:</label>
+                            <input type="text" class="form-control" id="itemName" ng-model="item.name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Description:</label>
+                            <textarea class="form-control" id="itemDescription" ng-model="item.description"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Week Days:</label>
+                            <input type="text" class="form-control" id="itemWeekDays" ng-model="item.weekDays">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Week pricing:</label>
+                            <input type="text" class="form-control" id="itemPricing" ng-model="item.weeklyPricing">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Month days:</label>
+                            <input type="text" class="form-control" id="itemMonthDays" ng-model="item.monthDays">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Type:</label>
+                            <select id="itemType" ng-model="item.frequency">
+                            <option value="DAILY">Daily</option>
+                            <option value="WEEKLY">Weekly (Magazine)</option>
+                            <option value="MONTHLY">Monthly (Magazine)</option>
+                            
+                        </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Fixed Price:</label>
+                            <input type="text" class="form-control" id="itemPrice" ng-model="item.price">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Image: {{imageFile.name}}</label>
+                            <div class="button blue_txt" ngf-select ng-model="imageFile" name="file" ngf-max-size="20MB" style="border:1px">
+                                <strong style="cursor: pointer">Select File</strong>
+                            </div>
+
+                        </div>
+
+
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal" ng-click="saveItem()">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <div id="deleteModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete  Item</h4>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete this item?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal" ng-click="deleteItem()">Delete</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- inline scripts related to this page -->
+    <script type="text/javascript">
+        jQuery(function($) {
+            var $overflow = '';
+            var colorbox_params = {
+                rel: 'colorbox',
+                reposition: true,
+                scalePhotos: true,
+                scrolling: false,
+                previous: '<i class="ace-icon fa fa-arrow-left"></i>',
+                next: '<i class="ace-icon fa fa-arrow-right"></i>',
+                close: '&times;',
+                current: '{current} of {total}',
+                maxWidth: '100%',
+                maxHeight: '100%',
+                onOpen: function() {
+                    $overflow = document.body.style.overflow;
+                    document.body.style.overflow = 'hidden';
+                },
+                onClosed: function() {
+                    document.body.style.overflow = $overflow;
+                },
+                onComplete: function() {
+                    $.colorbox.resize();
+                }
+            };
+
+            $('.ace-thumbnails [data-rel="colorbox"]').colorbox(colorbox_params);
+            $("#cboxLoadingGraphic").html("<i class='ace-icon fa fa-spinner orange fa-spin'></i>"); //let's add a custom loading icon
+
+
+            $(document).one('ajaxloadstart.page', function(e) {
+                $('#colorbox, #cboxOverlay').remove();
+            });
+        })
+
+    </script>
+</body>
