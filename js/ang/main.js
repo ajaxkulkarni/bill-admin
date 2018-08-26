@@ -141,7 +141,7 @@ app.factory('Auth', function () {
     return {
         setUser: function (aUser) {
             setCookie("token", aUser, 1);
-            alert("token is set .." + user);
+            //alert("token is set .." + user);
             console.log(user);
         },
         isLoggedIn: function () {
