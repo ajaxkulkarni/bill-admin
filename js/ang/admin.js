@@ -1,4 +1,4 @@
-angular.module("app").controller('items', function ($scope, userService, Upload) {
+angular.module("app").controller('items', function ($scope, userService, Upload, Auth) {
 
     $scope.item = {};
     console.log("Admin Items loaded ..");
@@ -42,6 +42,9 @@ angular.module("app").controller('items', function ($scope, userService, Upload)
             data: {
                 image: $scope.imageFile,
                 item: JSON.stringify($scope.item)
+            },
+             headers: {
+                'Token': Auth.isLoggedIn()
             }
         }).then(function (resp) {
                 console.log(resp.data);
