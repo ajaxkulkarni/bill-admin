@@ -1,4 +1,4 @@
-angular.module("app").controller('items', function ($scope, userService, Upload, Auth) {
+angular.module("app").controller('items', function ($scope, userService, Upload, Auth, $http) {
 
     $scope.item = {};
     console.log("Admin Items loaded ..");
@@ -40,11 +40,13 @@ angular.module("app").controller('items', function ($scope, userService, Upload,
         Upload.upload({
             url: root + 'updateParentItem',
             data: {
-                image: $scope.imageFile,
-                item: JSON.stringify($scope.item)
+                'image': $scope.imageFile,
+                'item': JSON.stringify($scope.item)
             },
-             headers: {
-                'Token': Auth.isLoggedIn()
+            headers: {
+                'Token': Auth.isLoggedIn(),
+                'Accept': "application/json",
+                'Content-Type': undefined
             }
         }).then(function (resp) {
                 console.log(resp.data);
@@ -52,6 +54,7 @@ angular.module("app").controller('items', function ($scope, userService, Upload,
                 $scope.getAllItems();
             },
             function (resp) {
+                console.log(resp);
                 console.log('Error status: ' + resp.status);
                 $scope.errorMsg = "Error connecting server!";
                 alert("Error!");
@@ -60,6 +63,29 @@ angular.module("app").controller('items', function ($scope, userService, Upload,
                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                 //console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
             });
+
+        /*var config = {
+            transformRequest: angular.identity,
+            headers: {
+                'Token': Auth.isLoggedIn(),
+                'Content-Type': undefined
+            }
+        };
+        console.log("headers = >" + JSON.stringify(config));
+        var fd = new FormData();
+        fd.append('image', $scope.imageFile);
+        fd.append('item', JSON.stringify($scope.item));
+        var res = $http.post(root + 'updateParentItem', fd, config);
+        res.success(function (data, status, headers, config) {
+            response = data;
+        });
+        res.error(function (data, status, headers, config) {
+            response = data;
+            errorCode = status;
+            console.log("Error :" + errorCode + ":" + JSON.stringify(data) + ":" + JSON.stringify(headers))
+        });*/
+
+
     };
 
     $scope.deleteConfirm = function (item) {
@@ -237,5 +263,119 @@ angular.module("app").controller('login', function ($scope, userService, Auth, $
          }
 
      }, true);*/
+
+});
+
+
+angular.module("app").controller('settlements', function ($scope, userService, Upload, Auth, $http) {
+
+    $scope.item = {};
+    console.log("Admin Settlements loaded ..");
+
+    $scope.approveVendor = function (vendor) {
+
+    }
+
+    $scope.getSettlements = function (type) {
+
+        $scope.tab = type;
+        $scope.dataObj = {
+            requestType: type
+        };
+        userService.callService($scope, "getSettlements").then(function (response) {
+            console.log(response);
+            if (response.status == 200) {
+                $scope.pending = response.businesses;
+            } else {
+                alert("Error!");
+            }
+        });
+
+
+    }
+    
+    $scope.initiate = function() {
+        $scope.dataObj = {
+            requestType: "INITIATE"
+        };
+        userService.callService($scope, "getSettlements").then(function (response) {
+            console.log(response);
+            if (response.status == 200) {
+                alert("Done!");
+                $scope.getSettlements("PENDING");
+            } else {
+                alert("Error!");
+            }
+        });
+    }
+    
+    $scope.download = function() {
+        
+        $scope.dataObj = {
+            requestType: "DOWNLOAD"
+        };
+        
+        var url = root + "downloadTransferExcel";
+        $http({
+            url: url,
+            method: "POST",
+            data: $scope.dataObj, //this is your json data string
+            headers: {
+                'Content-type': 'application/json',
+                'Token': Auth.isLoggedIn()
+            },
+            responseType: 'arraybuffer'
+        }).success(function (data, status, headers, config) {
+            console.log(data);
+            var blob = new Blob([data], {
+                type: "application/vnd.ms-excel"
+            });
+            var objectUrl = URL.createObjectURL(blob);
+            //window.open(objectUrl);
+
+            var a = document.createElement("a");
+            document.body.appendChild(a);
+            a.style = "display: none";
+            a.href = objectUrl;
+            a.download = "transfer.xlsx";
+            a.click();
+            window.URL.revokeObjectURL(url);
+
+        }).error(function (data, status, headers, config) {
+            //upload failed
+            console.log(data);
+            console.log("Error!!!" + data);
+        });
+    }
+    
+    $scope.startSettlement = function(business) {
+        $scope.business = business;
+        $("#settlementModal").modal('show')
+    }
+    
+    $scope.settle = function() {
+        $scope.dataObj = {
+            requestType: "SETTLE",
+            business: {
+                id: $scope.business.id
+            },
+            invoice: {
+                paymentId: $scope.settlementId
+            }
+        };
+        userService.callService($scope, "getSettlements").then(function (response) {
+            console.log(response);
+            if (response.status == 200) {
+                alert("Done!");
+                $scope.getSettlements("INITIATED");
+            } else {
+                alert("Error!");
+            }
+        });
+    }
+
+    $scope.getSettlements("PENDING");
+
+
 
 });

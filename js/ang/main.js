@@ -78,6 +78,10 @@ app.config(function ($routeProvider) {
             controller: "vendors",
             templateUrl: "users.html"
         })
+        .when("/settlements", {
+            controller: "settlements",
+            templateUrl: "settlements.html"
+        })
 });
 
 
