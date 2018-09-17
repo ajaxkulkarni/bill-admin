@@ -63,6 +63,10 @@
                                 <a style="cursor:pointer" ng-click="deleteConfirm(item)">
                                     <i class="ace-icon fa fa-times red"></i>
                                 </a>
+
+                                <a style="cursor:pointer" ng-click="updateParentCost(item)">
+                                    <i class="ace-icon fa fa-pencil-square-o"></i>
+                                </a>
                             </div>
                         </li>
 
@@ -123,6 +127,16 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="email">Fixed Cost price:</label>
+                            <input type="text" class="form-control" id="itemCP" ng-model="item.costPrice">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Weekly/Monthly cost price:</label>
+                            <input type="text" class="form-control" id="itemWeeklyCP" ng-model="item.weeklyCostPrice">
+                        </div>
+
+                        <div class="form-group">
                             <label for="email">Image: {{imageFile.name}}</label>
                             <div class="button blue_txt" ngf-select ng-model="imageFile" name="file" ngf-max-size="20MB" style="border:1px">
                                 <strong style="cursor: pointer">Select File</strong>
@@ -143,7 +157,7 @@
 
         </div>
     </div>
-    
+
     <div id="deleteModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
@@ -151,13 +165,52 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Delete  Item</h4>
+                    <h4 class="modal-title">Delete Item</h4>
                 </div>
                 <div class="modal-body">
                     Are you sure you want to delete this item?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn" data-dismiss="modal" ng-click="deleteItem()">Delete</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="costUpdate" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Update cost of {{item.name}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Cost:</label>
+                            <input type="text" class="form-control" id="itemName" ng-model="costPrice">
+                        </div>
+                        <!--<div class="input-group">
+                            <input class="form-control date-picker" id="id-date-picker-1" type="text" data-date-format="yyyy-mm-dd" ng-model="requestedDate" />
+                            <span class="input-group-addon">
+								<i class="fa fa-calendar bigger-110"></i>
+				            </span>
+                        </div>-->
+                        <div class='input-group date' id='datetimepicker1'>
+                            
+                            <input type='text' class="form-control" id="requestedDate" />
+                            <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal" ng-click="updateCost()">Save</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -200,7 +253,14 @@
             $(document).one('ajaxloadstart.page', function(e) {
                 $('#colorbox, #cboxOverlay').remove();
             });
+
+
+            console.log("Done!");
         })
+
+        $(function() {
+
+        });
 
     </script>
 </body>

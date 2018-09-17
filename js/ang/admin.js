@@ -4,11 +4,40 @@ angular.module("app").controller('items', function ($scope, userService, Upload,
     console.log("Admin Items loaded ..");
     $scope.root = root;
 
+    $('#datetimepicker1').datetimepicker({date: new Date()});
+
+    //$scope.requestedDate = new Date();
 
     $scope.getAllItems = function () {
         userService.callService($scope, "getAllItems").then(function (response) {
             console.log(response);
             $scope.items = response.items;
+        });
+
+    };
+    
+    //
+    
+    $scope.updateCost = function () {
+        
+        console.log($('#requestedDate').val());
+        
+        $scope.dataObj = {
+            item: {
+                parentItemId: $scope.item.id,
+                costPrice: $scope.costPrice
+            },
+            requestedDate:  new Date($('#requestedDate').val())
+        };
+        
+        userService.callService($scope, "updateOrders").then(function (response) {
+            console.log(response);
+            if(response.status == 200) {
+                alert("Done!");
+            } else {
+                alert("Error!");
+            }
+            
         });
 
     };
@@ -100,6 +129,10 @@ angular.module("app").controller('items', function ($scope, userService, Upload,
         $scope.saveItem();
     }
 
+    $scope.updateParentCost = function (item) {
+        $scope.item = item;
+        $("#costUpdate").modal('show');
+    }
 
 
 });
@@ -293,8 +326,8 @@ angular.module("app").controller('settlements', function ($scope, userService, U
 
 
     }
-    
-    $scope.initiate = function() {
+
+    $scope.initiate = function () {
         $scope.dataObj = {
             requestType: "INITIATE"
         };
@@ -308,13 +341,13 @@ angular.module("app").controller('settlements', function ($scope, userService, U
             }
         });
     }
-    
-    $scope.download = function() {
-        
+
+    $scope.download = function () {
+
         $scope.dataObj = {
             requestType: "DOWNLOAD"
         };
-        
+
         var url = root + "downloadTransferExcel";
         $http({
             url: url,
@@ -347,13 +380,13 @@ angular.module("app").controller('settlements', function ($scope, userService, U
             console.log("Error!!!" + data);
         });
     }
-    
-    $scope.startSettlement = function(business) {
+
+    $scope.startSettlement = function (business) {
         $scope.business = business;
         $("#settlementModal").modal('show')
     }
-    
-    $scope.settle = function() {
+
+    $scope.settle = function () {
         $scope.dataObj = {
             requestType: "SETTLE",
             business: {

@@ -57,6 +57,14 @@
     <script type="text/javascript" src="js/ang/main.js"></script>
 
     <script type="text/javascript" src="js/ang/admin.js"></script>
+
+    <link rel="stylesheet" href="assets/css/jquery-ui.custom.min.css" />
+    <link rel="stylesheet" href="assets/css/chosen.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap-datepicker3.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap-timepicker.min.css" />
+    <link rel="stylesheet" href="assets/css/daterangepicker.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap-datetimepicker.min.css" />
+    <link rel="stylesheet" href="assets/css/bootstrap-colorpicker.min.css" />
 </head>
 
 <body class="no-skin" ng-app="app">
@@ -188,7 +196,7 @@
 
                     <b class="arrow"></b>
                 </li>
-                
+
                 <li class="">
                     <a href="#settlements">
                         <i class="menu-icon fa fa-list-alt"></i>
@@ -399,8 +407,14 @@
     <script src="assets/js/jquery.flot.resize.min.js"></script>
 -->
     <!-- ace scripts -->
+    <script src="assets/js/bootstrap-datepicker.min.js"></script>
     <script src="assets/js/ace-elements.min.js"></script>
     <script src="assets/js/ace.min.js"></script>
+    <script src="assets/js/bootstrap-datepicker.min.js"></script>
+    <script src="assets/js/bootstrap-timepicker.min.js"></script>
+    <script src="assets/js/moment.min.js"></script>
+    <script src="assets/js/daterangepicker.min.js"></script>
+    <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
 
     <!-- inline scripts related to this page -->
     <script type="text/javascript">
@@ -662,7 +676,54 @@
                 else $(this).removeClass('dropup');
             });
 
-        })
+            //datepicker plugin
+            //link
+            $('.date-picker').datepicker({
+                    autoclose: true,
+                    todayHighlight: true
+                })
+                //show datepicker when clicking on the icon
+                .next().on(ace.click_event, function() {
+                    $(this).prev().focus();
+                });
+
+            //or change it into a date range picker
+            $('.input-daterange').datepicker({
+                autoclose: true
+            });
+
+
+            //to translate the daterange picker, please copy the "examples/daterange-fr.js" contents here before initialization
+            $('input[name=date-range-picker]').daterangepicker({
+                    'applyClass': 'btn-sm btn-success',
+                    'cancelClass': 'btn-sm btn-default',
+                    locale: {
+                        applyLabel: 'Apply',
+                        cancelLabel: 'Cancel',
+                    }
+                })
+                .prev().on(ace.click_event, function() {
+                    $(this).next().focus();
+                });
+
+
+            $('#timepicker1').timepicker({
+                minuteStep: 1,
+                showSeconds: true,
+                showMeridian: false,
+                disableFocus: true,
+                icons: {
+                    up: 'fa fa-chevron-up',
+                    down: 'fa fa-chevron-down'
+                }
+            }).on('focus', function() {
+                $('#timepicker1').timepicker('showWidget');
+            }).next().on(ace.click_event, function() {
+                $(this).prev().focus();
+            });
+
+
+        });
 
     </script>
 </body>
