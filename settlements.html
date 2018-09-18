@@ -72,6 +72,7 @@
 															</label>
                                         </th>-->
                                                 <th>Sr No</th>
+                                                <th ng-if="tab == 'INITIATED'">Settle</th>
                                                 <th>Name</th>
                                                 <th>Phone</th>
                                                 <th>Email</th>
@@ -81,7 +82,7 @@
                                                 <th>Bank</th>
                                                 <th>Tota amount</th>
                                                 <th>Sector</th>
-                                                <th ng-if="tab == 'INITIATED'"></th>
+                                                
                                             </tr>
                                         </thead>
 
@@ -94,6 +95,15 @@
 															</label>
                                         </td>-->
                                                 <td>{{$index + 1}}</td>
+                                                <td ng-if="tab == 'INITIATED'">
+                                                    <div class="hidden-sm hidden-xs action-buttons" >
+                                                        <a class="blue" ng-click="startSettlement(business)" style="cursor:pointer">
+                                                            <i class="ace-icon fa fa-check-square-o bigger-130"></i>
+                                                        </a>
+                                                    </div>
+
+
+                                                </td>
                                                 <td>{{business.owner.name}}</td>
                                                 <td>{{business.owner.phone}}</td>
                                                 <td>{{business.owner.email}}</td>
@@ -109,15 +119,7 @@
                                                     <span class="label label-sm label-inverse arrowed-in" ng-if="business.owner.status == 'D'">Disabled</span>
                                                 </td>-->
 
-                                                <td ng-if="tab == 'INITIATED'">
-                                                    <div class="hidden-sm hidden-xs action-buttons" >
-                                                        <a class="blue" ng-click="startSettlement(business)" style="cursor:pointer">
-                                                            <i class="ace-icon fa fa-check-square-o bigger-130"></i>
-                                                        </a>
-                                                    </div>
-
-
-                                                </td>
+                                                
                                             </tr>
 
 
