@@ -1,4 +1,4 @@
-var app = angular.module("app", ["angular-loading-bar", "ngRoute", "ngFileUpload"]);
+var app = angular.module("app", ["angular-loading-bar", "ngRoute", "ngFileUpload", "angularUtils.directives.dirPagination"]);//[""]
 
 app.config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
     cfpLoadingBarProvider.includeSpinner = false;
@@ -47,6 +47,36 @@ app.service('userService', function ($http, $q, Auth) {
         return $q.when(response);
     }
 
+    this.callUserService = function ($scope, method) {
+        errorCode = 0;
+        var defer = $q.defer();
+        var url = rootUser + method;
+        var config = {
+            headers: {
+                'Token': Auth.isLoggedIn()/*,
+                'Accept': 'application/json;odata=verbose'*/,
+                'Content-Type': 'application/json'
+            }
+        };
+        console.log("headers = >" + JSON.stringify(config));
+        var res = $http.post(url, $scope.dataObj, config);
+        res.success(function (data, status, headers, config) {
+            response = data;
+            defer.resolve(response);
+
+        });
+        res.error(function (data, status, headers, config) {
+            response = data;
+            errorCode = status;
+            defer.resolve(response);
+            console.log("Error :" + errorCode + ":" + JSON.stringify(data) + ":" + JSON.stringify(headers))
+        });
+
+        response = defer.promise;
+        return $q.when(response);
+    }
+
+    
     this.logout = function () {
 
     }
@@ -81,6 +111,14 @@ app.config(function ($routeProvider) {
         .when("/settlements", {
             controller: "settlements",
             templateUrl: "settlements.html"
+        })
+        .when("/transactions", {
+            controller: "transactions",
+            templateUrl: "transactions.html"
+        })
+        .when("/locations", {
+            controller: "locations",
+            templateUrl: "locations.html"
         })
 });
 

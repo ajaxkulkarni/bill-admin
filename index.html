@@ -44,6 +44,8 @@
 		<![endif]-->
 
     <script type="text/javascript" src="js/angular.min.js"></script>
+    
+    <script type="text/javascript" src="js/dirPaginate.js"></script>
 
     <script type="text/javascript" src="js/angular-route.js"></script>
 
@@ -53,6 +55,8 @@
     <script src="js/ng-file-upload.min.js"></script>
 
     <script src="js/ngTextInput.js"></script>
+
+    
 
     <script type="text/javascript" src="js/ang/main.js"></script>
 
@@ -136,7 +140,6 @@
             try {
                 ace.settings.loadState('main-container')
             } catch (e) {}
-
         </script>
 
         <div id="sidebar" class="sidebar                  responsive                    ace-save-state">
@@ -144,7 +147,6 @@
                 try {
                     ace.settings.loadState('sidebar')
                 } catch (e) {}
-
             </script>
 
             <div class="sidebar-shortcuts" id="sidebar-shortcuts">
@@ -205,8 +207,17 @@
 
                     <b class="arrow"></b>
                 </li>
-
+                
                 <li class="">
+                    <a href="#transactions">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> Transactions </span>
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+
+                <!--<li class="">
                     <a href="#">
                         <i class="menu-icon fa fa-calendar"></i>
 
@@ -220,12 +231,21 @@
                     </a>
 
                     <b class="arrow"></b>
-                </li>
+                </li>-->
 
                 <li class="">
                     <a href="#items">
                         <i class="menu-icon fa fa-picture-o"></i>
                         <span class="menu-text"> Items </span>
+                    </a>
+
+                    <b class="arrow"></b>
+                </li>
+                
+                <li class="">
+                    <a href="#locations">
+                        <i class="menu-icon fa fa-list-alt"></i>
+                        <span class="menu-text"> Locations </span>
                     </a>
 
                     <b class="arrow"></b>
@@ -389,7 +409,6 @@
 <![endif]-->
     <script type="text/javascript">
         if ('ontouchstart' in document.documentElement) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
-
     </script>
     <script src="assets/js/bootstrap.min.js"></script>
 
@@ -415,6 +434,7 @@
     <script src="assets/js/moment.min.js"></script>
     <script src="assets/js/daterangepicker.min.js"></script>
     <script src="assets/js/bootstrap-datetimepicker.min.js"></script>
+
 
     <!-- inline scripts related to this page -->
     <script type="text/javascript">
@@ -724,7 +744,6 @@
 
 
         });
-
     </script>
 </body>
 

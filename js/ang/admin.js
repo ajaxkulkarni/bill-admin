@@ -4,7 +4,9 @@ angular.module("app").controller('items', function ($scope, userService, Upload,
     console.log("Admin Items loaded ..");
     $scope.root = root;
 
-    $('#datetimepicker1').datetimepicker({date: new Date()});
+    $('#datetimepicker1').datetimepicker({
+        date: new Date()
+    });
 
     //$scope.requestedDate = new Date();
 
@@ -15,29 +17,29 @@ angular.module("app").controller('items', function ($scope, userService, Upload,
         });
 
     };
-    
+
     //
-    
+
     $scope.updateCost = function () {
-        
+
         console.log($('#requestedDate').val());
-        
+
         $scope.dataObj = {
             item: {
                 parentItemId: $scope.item.id,
                 costPrice: $scope.costPrice
             },
-            requestedDate:  new Date($('#requestedDate').val())
+            requestedDate: new Date($('#requestedDate').val())
         };
-        
+
         userService.callService($scope, "updateOrders").then(function (response) {
             console.log(response);
-            if(response.status == 200) {
+            if (response.status == 200) {
                 alert("Done!");
             } else {
                 alert("Error!");
             }
-            
+
         });
 
     };
@@ -410,5 +412,98 @@ angular.module("app").controller('settlements', function ($scope, userService, U
     $scope.getSettlements("PENDING");
 
 
+
+});
+
+
+angular.module("app").controller('transactions', function ($scope, userService, Auth, $http) {
+
+
+    console.log("Admin Transactions loaded ..");
+
+    $scope.approveVendor = function (vendor) {
+
+    }
+
+    $scope.items = 10;
+
+    $scope.getTransactions = function (type) {
+
+        $scope.tab = type;
+        $scope.dataObj = {
+
+        };
+        userService.callService($scope, "getTransactions").then(function (response) {
+            console.log(response);
+            if (response.status == 200) {
+                $scope.transactions = response.users;
+            } else {
+                alert("Error!");
+            }
+        });
+    }
+
+    $scope.sort = function (keyname) {
+        $scope.sortKey = keyname; //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
+    $scope.getTransactions();
+
+});
+
+angular.module("app").controller('locations', function ($scope, userService, Auth, $http) {
+
+
+    console.log("Admin Locations loaded ..");
+
+    $scope.updateLocation = function () {
+        $scope.dataObj = {
+            location: $scope.loc
+        };
+        userService.callService($scope, "updateLocation").then(function (response) {
+            console.log(response);
+            if (response.status == 200) {
+                alert("Done!");
+                $scope.getLocations();
+            } else {
+                alert("Error!");
+            }
+        });
+    }
+
+    $scope.items = 10;
+
+    $scope.getLocations = function (type) {
+
+        $scope.dataObj = {
+
+        };
+        userService.callUserService($scope, "getAllAreas").then(function (response) {
+            console.log(response);
+            if (response.status == 200) {
+                $scope.locations = response.locations;
+            } else {
+                alert("Error!");
+            }
+        });
+    }
+    
+    $scope.editLoc = function(loc) {
+        if(loc == null) {
+            loc = {};
+        }
+        $scope.loc = loc;
+        $("#locationModal").modal('show');
+    }
+    
+    //
+
+    $scope.sort = function (keyname) {
+        $scope.sortKey = keyname; //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+
+    $scope.getLocations();
 
 });
