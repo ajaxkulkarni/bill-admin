@@ -168,7 +168,7 @@ angular.module("app").controller('dashboard', function ($scope, userService, Upl
 
 });
 
-angular.module("app").controller('vendors', function ($scope, userService, Upload) {
+angular.module("app").controller('vendors', function ($scope, userService, Upload, Auth) {
 
     $scope.item = {};
     console.log("Vendors loaded ..");
@@ -191,6 +191,37 @@ angular.module("app").controller('vendors', function ($scope, userService, Uploa
         });
 
     };
+
+    $scope.getLocations = function (type) {
+
+        $scope.dataObj = {
+
+        };
+        userService.callUserService($scope, "getAllAreas").then(function (response) {
+            console.log(response);
+            if (response.status == 200) {
+                $scope.locations = response.locations;
+            } else {
+                console.log("Error in locations!");
+            }
+        });
+    }
+
+    $scope.getAllItems = function (type) {
+
+        $scope.dataObj = {
+
+        };
+        userService.callService($scope, "getAllItems").then(function (response) {
+            console.log(response);
+            if (response.status == 200) {
+                $scope.parentItems = response.items;
+            } else {
+                console.log("Error in items!");
+            }
+        });
+    }
+
 
     $scope.updateVendor = function (business) {
         $scope.vendor = business.owner;
@@ -228,7 +259,114 @@ angular.module("app").controller('vendors', function ($scope, userService, Uploa
     }
 
 
+    $scope.addItem = function () {
+        console.log("adding .." + $scope.selectedItem);
+        var selectedItem = {};
+        selectedItem.parentItem = $scope.selectedItem;
+        selectedItem.selected = true;
+        selectedItem.status = 'A';
+        $scope.items.push(selectedItem);
+    }
 
+    $scope.loadBusinessItems = function () {
+        if($scope.vendor.currentBusiness == null) {
+            return;
+        }
+        
+
+        $scope.dataObj = {
+            business: {
+                id: $scope.vendor.currentBusiness.id
+            }
+        };
+        userService.callUserService($scope, "loadBusinessItems").then(function (response) {
+            console.log(response);
+            if (response.status == 200 && response.items != null) {
+                $scope.items = response.items;
+                $scope.items.forEach(function(item){
+                    item.selected = true;
+                });
+            } else {
+                console.log("Error in items!");
+            }
+        });
+    }
+
+    $scope.updateVendorFull = function (vendor) {
+        $scope.vendor = {};
+        $scope.items = [];
+        console.log(vendor);
+        if (vendor != null) {
+            var business = angular.copy(vendor);
+            $scope.vendor = angular.copy(business.owner);
+            $scope.vendor.currentBusiness = business;
+            business.owner = null;
+            if($scope.vendor.currentBusiness.businessLocations != null && $scope.vendor.currentBusiness.businessLocations.length > 0) {
+                $scope.selectedLocation = $scope.vendor.currentBusiness.businessLocations[0];    
+            }
+            if($scope.vendor.currentBusiness.type == 'Distributor') {
+                $scope.distributor = true;
+            }
+            //$scope.vendor.currentBusiness = vendor;
+            //$scope.items = $scope.vendor.currentBusiness.items;
+        }
+        $scope.getAllItems();
+        $scope.getLocations();
+        $scope.loadBusinessItems();
+        $("#updateVendorModal").modal('show');
+
+
+    }
+
+    $scope.saveVendor = function () {
+
+        //var items = [];
+
+        $scope.items.forEach(function (item) {
+            if (!item.selected) {
+                item.status = 'D';
+            }
+            if($scope.distributor) {
+                item.access = 'Distributor';
+            }
+        });
+
+        if($scope.distributor) {
+            $scope.vendor.currentBusiness.type = "Distributor";    
+        }
+        
+        $scope.vendor.currentBusiness.businessLocations = [];
+        $scope.vendor.currentBusiness.businessLocations.push($scope.selectedLocation);
+        console.log("Items = >" + JSON.stringify($scope.items));
+
+        Upload.upload({
+            url: root + 'updateBusinessInfo',
+            data: {
+                'business': JSON.stringify($scope.vendor),
+                'items': JSON.stringify($scope.items)
+            },
+            headers: {
+                'Token': Auth.isLoggedIn(),
+                'Accept': "application/json",
+                'Content-Type': undefined
+            }
+        }).then(function (resp) {
+                console.log(resp.data);
+                alert("Successful!");
+                $scope.loadVendors();
+            },
+            function (resp) {
+                console.log(resp);
+                console.log('Error status: ' + resp.status);
+                $scope.errorMsg = "Error connecting server!";
+                alert("Error!");
+            },
+            function (evt) {
+                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                //console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
+            });
+
+    }
 
     $scope.approveVendor = function (vendor) {
         vendor.status = 'A';
@@ -488,15 +626,15 @@ angular.module("app").controller('locations', function ($scope, userService, Aut
             }
         });
     }
-    
-    $scope.editLoc = function(loc) {
-        if(loc == null) {
+
+    $scope.editLoc = function (loc) {
+        if (loc == null) {
             loc = {};
         }
         $scope.loc = loc;
         $("#locationModal").modal('show');
     }
-    
+
     //
 
     $scope.sort = function (keyname) {

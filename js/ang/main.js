@@ -10,7 +10,8 @@ var root = host + "/admin/";
 //var projectRoot = host + "/projectService"
 var rootUser = host + "/user/";
 
-
+var sector = 4;
+//var sector = 2; //Dev
 
 
 app.service('userService', function ($http, $q, Auth) {

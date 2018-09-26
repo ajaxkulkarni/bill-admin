@@ -1014,6 +1014,8 @@
                             All vendors
                         </div>
 
+                        <button class="btn" ng-click="updateVendorFull(null)">ADD NEW</button>
+
                         <!-- div.table-responsive -->
 
                         <!-- div.dataTables_borderWrap -->
@@ -1028,6 +1030,7 @@
 															</label>
                                         </th>-->
                                         <th>Sr No</th>
+                                        <th>Approve</th>
                                         <th>Action</th>
                                         <th>ID</th>
                                         <th>Name</th>
@@ -1045,7 +1048,7 @@
                                         </th>-->
                                         <th class="hidden-480">Status</th>
 
-                                        
+
                                     </tr>
                                 </thead>
 
@@ -1058,11 +1061,13 @@
 															</label>
                                         </td>-->
                                         <td>{{$index + 1}}</td>
+                                        <td><button class="btn" ng-click="approveVendor(business.owner)">APPR</button></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs action-buttons">
-                                                <a class="blue" ng-click="approveVendor(business.owner)" style="cursor:pointer">
+                                                <!--<a class="blue" ng-click="approveVendor(business.owner)" style="cursor:pointer">
                                                     <i class="ace-icon fa fa-check-square-o bigger-130"></i>
-                                                </a>
+                                                </a>-->
+                                                
 
                                                 <a class="green" ng-click="updateVendor(business)" style="cursor:pointer">
                                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
@@ -1089,8 +1094,8 @@
                                             <span class="label label-sm label-success" ng-if="business.owner.status == 'A'">Active</span>
                                             <span class="label label-sm label-inverse arrowed-in" ng-if="business.owner.status == 'D'">Disabled</span>
                                         </td>
+                                        <td><button class="btn" ng-click="updateVendorFull(business)">EDIT</button></td>
 
-                                        
                                     </tr>
 
 
@@ -1168,6 +1173,92 @@
                             <label for="email">License no:</label>
                             <input type="text" class="form-control" id="itemWeekDays" ng-model="vendor.currentBusiness.identificationNumber">
                         </div>
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal" ng-click="saveVendor(vendor)">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="updateVendorModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Update Vendor details - {{vendor.name}}</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Name:</label>
+                            <input type="text" class="form-control" id="itemName" ng-model="vendor.name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Phone:</label>
+                            <input type="text" class="form-control" id="itemPhone" ng-model="vendor.phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email:</label>
+                            <input type="text" class="form-control" id="itemEmail" ng-model="vendor.email">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Business name:</label>
+                            <input type="text" class="form-control" id="itemBusinessName" ng-model="vendor.currentBusiness.name">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sector">Sector:</label>
+                            <select ng-model="vendor.currentBusiness.businessSector.id">
+                                <option value="2">Newspaper</option>
+                            </select>
+                        </div>
+                        
+                         <div class="form-group">
+                            <label for="sector">Is distributor:</label> 
+                            <input type="checkbox" ng-selected="distributor" ng-model="distributor">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="sector">Location: {{selectedLocation.name}}</label>   
+                            <select ng-model="selectedLocation" ng-options="loc.name for loc in locations">
+                            
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sector">Parent Items:</label>
+                            <select ng-model="selectedItem" ng-options="item.name for item in parentItems">
+                            
+                            </select>
+                            <button class="btn" ng-click="addItem()">Add</button>
+
+                            <div class="dd" id="nestable">
+                                <ol class="dd-list">
+                                    <li class="dd-item" data-id="1">
+                                        <div class="dd-handle" ng-repeat="item in items">
+                                            {{item.parentItem.name}}
+                                            <i class="pull-right">
+                                                <input type="checkbox" ng-checked="item.selected" ng-model="item.selected">
+                                            </i>
+                                        </div>
+                                    </li>
+                                </ol>
+                            </div>
+
+                        </div>
+
+
+
+
 
                     </form>
 
