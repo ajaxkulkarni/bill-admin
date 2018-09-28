@@ -269,10 +269,10 @@ angular.module("app").controller('vendors', function ($scope, userService, Uploa
     }
 
     $scope.loadBusinessItems = function () {
-        if($scope.vendor.currentBusiness == null) {
+        if ($scope.vendor.currentBusiness == null) {
             return;
         }
-        
+
 
         $scope.dataObj = {
             business: {
@@ -283,7 +283,7 @@ angular.module("app").controller('vendors', function ($scope, userService, Uploa
             console.log(response);
             if (response.status == 200 && response.items != null) {
                 $scope.items = response.items;
-                $scope.items.forEach(function(item){
+                $scope.items.forEach(function (item) {
                     item.selected = true;
                 });
             } else {
@@ -301,10 +301,10 @@ angular.module("app").controller('vendors', function ($scope, userService, Uploa
             $scope.vendor = angular.copy(business.owner);
             $scope.vendor.currentBusiness = business;
             business.owner = null;
-            if($scope.vendor.currentBusiness.businessLocations != null && $scope.vendor.currentBusiness.businessLocations.length > 0) {
-                $scope.selectedLocation = $scope.vendor.currentBusiness.businessLocations[0];    
+            if ($scope.vendor.currentBusiness.businessLocations != null && $scope.vendor.currentBusiness.businessLocations.length > 0) {
+                $scope.selectedLocation = $scope.vendor.currentBusiness.businessLocations[0];
             }
-            if($scope.vendor.currentBusiness.type == 'Distributor') {
+            if ($scope.vendor.currentBusiness.type == 'Distributor') {
                 $scope.distributor = true;
             }
             //$scope.vendor.currentBusiness = vendor;
@@ -326,15 +326,15 @@ angular.module("app").controller('vendors', function ($scope, userService, Uploa
             if (!item.selected) {
                 item.status = 'D';
             }
-            if($scope.distributor) {
+            if ($scope.distributor) {
                 item.access = 'Distributor';
             }
         });
 
-        if($scope.distributor) {
-            $scope.vendor.currentBusiness.type = "Distributor";    
+        if ($scope.distributor) {
+            $scope.vendor.currentBusiness.type = "Distributor";
         }
-        
+
         $scope.vendor.currentBusiness.businessLocations = [];
         $scope.vendor.currentBusiness.businessLocations.push($scope.selectedLocation);
         console.log("Items = >" + JSON.stringify($scope.items));
@@ -382,6 +382,27 @@ angular.module("app").controller('vendors', function ($scope, userService, Uploa
                 alert("Error!");
             }
         });
+    }
+
+    $scope.generateInvoices = function () {
+        $scope.dataObj = {
+            invoice: {
+                month: $scope.selectedMonth,
+                year: $scope.selectedYear
+            },
+            requestType: $scope.overwriteInvoices,
+            business: $scope.selectedUser
+        }
+        
+        userService.callService($scope, "generateInvoices").then(function (response) {
+            console.log(response);
+            if (response.status == 200) {
+                alert("Done!!");
+            } else {
+                alert("Error!");
+            }
+        });
+        
     }
 
     $scope.loadVendors();
