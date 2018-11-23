@@ -80,7 +80,8 @@
                                                 <th>Account number</th>
                                                 <th>IFSC code</th>
                                                 <th>Bank</th>
-                                                <th>Tota amount</th>
+                                                <th>Total amount</th>
+                                                <th>Transaction charges</th>
                                                 <th>Sector</th>
                                                 
                                             </tr>
@@ -95,7 +96,7 @@
 															</label>
                                         </td>-->
                                                 <td>{{$index + 1}}</td>
-                                                <td ng-if="tab == 'INITIATED'">
+                                                <td ng-if="tab == 'INITIATED' && business.owner.financialDetails.accountNumber != null">
                                                     <div class="hidden-sm hidden-xs action-buttons" >
                                                         <a class="blue" ng-click="startSettlement(business)" style="cursor:pointer">
                                                             <i class="ace-icon fa fa-check-square-o bigger-130"></i>
@@ -112,6 +113,7 @@
                                                 <td>{{business.owner.financialDetails.ifscCode}}</td>
                                                 <td>{{business.owner.financialDetails.bankName}}</td>
                                                 <td>{{business.owner.currentInvoice.amount}}</td>
+                                                <td>{{business.owner.currentInvoice.amount.transactionCharges}}</td>
                                                 <td>{{business.businessSector.name}}</td>
                                                 <!--<td class="hidden-480">
                                                     <span class="label label-sm label-warning" ng-if="business.owner.status == 'P'">Pending</span>
