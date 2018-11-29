@@ -1064,7 +1064,7 @@
 															</label>
                                         </td>-->
                                         <td>{{$index + 1}}</td>
-                                        <td><button class="btn" ng-click="approveVendor(business.owner)">APPR</button></td>
+                                        <td><button class="btn" ng-if="business.owner.status == 'P'" ng-click="approveVendor(business.owner)">APPR</button></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs action-buttons">
                                                 <!--<a class="blue" ng-click="approveVendor(business.owner)" style="cursor:pointer">
