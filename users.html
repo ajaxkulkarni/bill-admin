@@ -1006,7 +1006,7 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <!--<h3 class="header smaller lighter blue">jQuery dataTables</h3>-->
-                        
+
                         <a class="btn" data-toggle="modal" data-target="#invoicesModal">INVOICES</a>
 
                         <div class="clearfix">
@@ -1064,13 +1064,13 @@
 															</label>
                                         </td>-->
                                         <td>{{$index + 1}}</td>
-                                        <td><button class="btn" ng-if="business.owner.status == 'P'" ng-click="approveVendor(business.owner)">APPR</button></td>
+                                        <td><button class="btn" ng-if="business.owner.status == 'P'" ng-click="approveConfirm(business)">APPR</button></td>
                                         <td>
                                             <div class="hidden-sm hidden-xs action-buttons">
                                                 <!--<a class="blue" ng-click="approveVendor(business.owner)" style="cursor:pointer">
                                                     <i class="ace-icon fa fa-check-square-o bigger-130"></i>
                                                 </a>-->
-                                                
+
 
                                                 <a class="green" ng-click="updateVendor(business)" style="cursor:pointer">
                                                     <i class="ace-icon fa fa-pencil bigger-130"></i>
@@ -1099,7 +1099,7 @@
                                             <span class="label label-sm label-inverse arrowed-in" ng-if="business.owner.status == 'D'">Disabled</span>
                                         </td>
                                         <td><button class="btn" ng-click="updateVendorFull(business)">EDIT</button></td>
-                                        
+
                                     </tr>
 
 
@@ -1189,7 +1189,7 @@
 
         </div>
     </div>
-    
+
     <div id="invoicesModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
@@ -1217,7 +1217,7 @@
                                 <option value="12">December</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="email">Selected Year:</label>
                             <select ng-model="selectedYear">
@@ -1226,12 +1226,12 @@
                                 
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="email">Overwrite (Y/N):</label>
                             <input type="checkbox" class="form-control" id="itemWeekDays" ng-model="overwriteInvoices">
                         </div>
-                        
+
 
                     </form>
 
@@ -1280,14 +1280,14 @@
                                 <option value="4">Newspaper</option>
                             </select>
                         </div>
-                        
-                         <div class="form-group">
-                            <label for="sector">Is distributor:</label> 
+
+                        <div class="form-group">
+                            <label for="sector">Is distributor:</label>
                             <input type="checkbox" ng-selected="distributor" ng-model="distributor">
                         </div>
-                        
+
                         <div class="form-group">
-                            <label for="sector">Location: {{selectedLocation.name}}</label>   
+                            <label for="sector">Location: {{selectedLocation.name}}</label>
                             <select ng-model="selectedLocation" ng-options="loc.name for loc in locations">
                             
                             </select>
@@ -1331,6 +1331,39 @@
         </div>
     </div>
 
+    <div id="approveModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Approve Vendor - {{vendor.name}}</h4>
+                </div>
+                <div class="modal-body">
+
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Commission:</label>
+                            <input type="text" class="form-control" id="commission" ng-model="vendor.transactionCharges">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Referral code (If any):</label>
+                            <input type="text" class="form-control" id="schemeCode" ng-model="scheme.schemeCode">
+                        </div>
+                        
+
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-dismiss="modal" ng-click="approveVendor()">Approve</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
 
     <!-- page specific plugin scripts -->

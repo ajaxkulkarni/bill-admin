@@ -367,17 +367,30 @@ angular.module("app").controller('vendors', function ($scope, userService, Uploa
             });
 
     }
+    
+    $scope.vendor = {};
+    $scope.scheme = {};
 
-    $scope.approveVendor = function (vendor) {
-        vendor.status = 'A';
+    $scope.approveConfirm = function(v) {
+        $scope.vendor = v;
+        $("#approveModal").modal('show');
+    }
+    
+    $scope.approveVendor = function () {
+        $scope.vendor.owner.status = 'A';
         $scope.dataObj = {
-            user: vendor
+            user: $scope.vendor.owner,
+            scheme: $scope.scheme,
+            business: {
+                transactionCharges: $scope.vendor.transactionCharges
+            }
         };
         userService.callService($scope, "updateUserStatus").then(function (response) {
             console.log(response);
             if (response.status == 200) {
                 $scope.loadVendors();
-                alert("Vendor approved!!");
+                alert("Vendor approved!! " + response.warningText);
+                $("#approveModal").modal('hide');
             } else {
                 alert("Error!");
             }
