@@ -23,8 +23,9 @@
                 <button class="btn" ng-click="edit(null)">Add new</button>
                 <!-- PAGE CONTENT BEGINS -->
                 <div>
+                    <input type="text" ng-model="search">
                     <ul class="ace-thumbnails clearfix">
-                        <li ng-repeat="item in items">
+                        <li ng-repeat="item in items|filter:search">
                             <a title="{{item.name}}" ng-click="edit(item)" style="cursor:pointer">
                                 <img width="150" height="150" alt="150x150" src="{{root}}getParentItemImage/{{item.id}}" />
                             </a>
