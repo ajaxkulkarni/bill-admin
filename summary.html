@@ -235,9 +235,11 @@
                                 <th>Phone</th>
                                 <!--<th>Email</th>-->
                                 <th>Business</th>
+                                <th>Created at</th>
                                 <th>Customers</th>
                                 <th>Last paid date</th>
                                 <th>Online payments</th>
+                                <th>Reminders</th>
 
                             </tr>
                         </thead>
@@ -250,10 +252,11 @@
                                 <td>{{sm.user.phone}}</td>
                                <!-- <td>{{sm.user.email}}</td>-->
                                 <td>{{sm.user.currentBusiness.name}}</td>
+                                <td>{{sm.user.createdDate|date:'yyyy-MM-dd hh:mm:ss'}}</td>
                                 <td>{{sm.customerCount}}</td>
                                 <td>{{sm.user.currentInvoice.paidDate|date:'yyyy-MM-dd'}}</td>
                                 <td>{{sm.onlinePaidCount}}</td>
-
+                                <td>{{sm.user.currentInvoice.noOfReminders}}</td>
                             </tr>
 
 
