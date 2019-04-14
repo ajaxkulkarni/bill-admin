@@ -1056,7 +1056,7 @@
                                 </thead>
 
                                 <tbody>
-                                    <tr ng-repeat="business in businesses">
+                                    <tr ng-repeat="business in businesses" style="{{business.type == 'Distributor' ? 'color:red': ''}}">
                                         <!--<td class="center">
                                             <label class="pos-rel">
 																<input type="checkbox" class="ace" />

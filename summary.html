@@ -245,7 +245,7 @@
                         </thead>
 
                         <tbody>
-                            <tr dir-paginate="sm in dashboard.summary|filter:search|orderBy:sortKey:reverse|itemsPerPage:items">
+                            <tr dir-paginate="sm in dashboard.summary|filter:search|orderBy:sortKey:reverse|itemsPerPage:items" >
                                 <!--orderBy:sortKey:reverse|-->
                                 <td>{{$index + 1}}</td>
                                 <td>{{sm.user.name}}</td>
