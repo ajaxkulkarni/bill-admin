@@ -98,9 +98,12 @@
                                                 <td>{{$index + 1}}</td>
                                                 <td ng-if="tab == 'INITIATED' && business.owner.financialDetails.accountNumber != null">
                                                     <div class="hidden-sm hidden-xs action-buttons" >
-                                                        <a class="blue" ng-click="startSettlement(business)" style="cursor:pointer">
+                                                        <!--<a class="blue" ng-click="startSettlement(business)" style="cursor:pointer">
                                                             <i class="ace-icon fa fa-check-square-o bigger-130"></i>
-                                                        </a>
+                                                        </a>-->
+                                                        
+                                                        <button class="btn" ng-click="startSettlement(business)" >Settle</button>
+                                                        
                                                     </div>
 
 
