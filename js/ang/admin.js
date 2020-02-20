@@ -692,7 +692,8 @@ angular.module("app").controller('invoices', function ($scope, userService, Uplo
         if ($scope.month != null && $scope.month != "" && $scope.year != null && $scope.year != "") {
             invoice = {
                 month: $scope.month,
-                year: $scope.year
+                year: $scope.year,
+                paymentAttempt: $scope.days
             }
         }
         $scope.dataObj = {
