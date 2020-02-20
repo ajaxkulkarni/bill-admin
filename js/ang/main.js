@@ -121,6 +121,10 @@ app.config(function ($routeProvider) {
             controller: "locations",
             templateUrl: "locations.html"
         })
+        .when("/invoices", {
+            controller: "invoices",
+            templateUrl: "invoices.html"
+        })
 });
 
 

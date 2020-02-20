@@ -367,15 +367,15 @@ angular.module("app").controller('vendors', function ($scope, userService, Uploa
             });
 
     }
-    
+
     $scope.vendor = {};
     $scope.scheme = {};
 
-    $scope.approveConfirm = function(v) {
+    $scope.approveConfirm = function (v) {
         $scope.vendor = v;
         $("#approveModal").modal('show');
     }
-    
+
     $scope.approveVendor = function () {
         $scope.vendor.owner.status = 'A';
         $scope.dataObj = {
@@ -406,7 +406,7 @@ angular.module("app").controller('vendors', function ($scope, userService, Uploa
             requestType: $scope.overwriteInvoices,
             business: $scope.selectedUser
         }
-        
+
         userService.callService($scope, "generateInvoices").then(function (response) {
             console.log(response);
             if (response.status == 200) {
@@ -415,7 +415,7 @@ angular.module("app").controller('vendors', function ($scope, userService, Uploa
                 alert("Error!");
             }
         });
-        
+
     }
 
     $scope.loadVendors();
@@ -677,5 +677,102 @@ angular.module("app").controller('locations', function ($scope, userService, Aut
     }
 
     $scope.getLocations();
+
+});
+
+
+angular.module("app").controller('invoices', function ($scope, userService, Upload, $http, Auth) {
+
+    $scope.item = {};
+    console.log("Admin Invoices loaded ..");
+    $scope.root = root;
+
+    $scope.reviewData = function () {
+        var invoice;
+        if ($scope.month != null && $scope.month != "" && $scope.year != null && $scope.year != "") {
+            invoice = {
+                month: $scope.month,
+                year: $scope.year
+            }
+        }
+        $scope.dataObj = {
+            invoice: invoice
+        };
+        userService.callService($scope, "getMonthlyBillData").then(function (response) {
+            console.log(response);
+            $scope.items = response.items;
+        });
+
+    };
+
+    $scope.generate = function () {
+        if ($scope.month == null || $scope.year == null) {
+            alert("Please select month and year!");
+            return;
+        }
+
+        var f = document.getElementById('inputData').files[0];
+        console.log("File:", f);
+        if (f == null || f == undefined) {
+            alert("Please select a file to upload!");
+            return;
+        }
+
+        $("#confirmModal").modal('show');
+
+    }
+
+    $scope.confirmGenerate = function () {
+
+        var f = document.getElementById('inputData').files[0];
+        console.log("File:", f);
+        if (f == null || f == undefined) {
+            alert("Please select a file to upload!");
+            return;
+        }
+        var fd = new FormData();
+        fd.append('data', f);
+        var req = {
+            invoice: {
+                month: $scope.month,
+                year: $scope.year
+            }
+        }
+        fd.append('request', JSON.stringify(req));
+
+        toggleSpinner("show");
+
+        $http.post(root + "generateInvoices", fd, {
+                transformRequest: angular.identity,
+                headers: {
+                    'Token': Auth.isLoggedIn(),
+                    'Content-Type': undefined
+                }
+            })
+            .success(function (response) {
+
+                toggleSpinner("hide");
+                console.log("Done!!!", response);
+                if (response.status == 200) {
+                    alert("Done!!");
+                } else {
+                    alert("Error!!" + response.response);
+                }
+                
+
+            })
+            .error(function (data, status, headers, config) {
+
+                console.log("Error :" + status + ":" + JSON.stringify(data) + ":" + JSON.stringify(headers));
+                toggleSpinner("hide");
+                alert("Error!");
+
+            });
+
+    }
+
+    toggleSpinner = function (toggle) {
+        $("#loader").modal(toggle);
+    }
 
 });
